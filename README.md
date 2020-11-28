@@ -1,6 +1,6 @@
 # ngrok-dns
 
-[![ngrok-dns]()](https://github.com/june07/ngrok-dns)
+[![ngrok-dns](https://june07.github.io/ngrok-dns/tempsnip.png)](https://github.com/june07/ngrok-dns)
 
 Ngrok-dns is a plugin of sorts that enables domain features of ngrok which are not available on the free plan.
 
