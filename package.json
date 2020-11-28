@@ -1,0 +1,27 @@
+{
+  "name": "ngrok-dns",
+  "version": "1.0.0",
+  "description": "DNS plugin for ngrok, update Cloudflare CNAME record",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/june07/ngrok-dns.git"
+  },
+  "keywords": [
+    "cloudflare",
+    "ngrok",
+    "dns"
+  ],
+  "author": "june07",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/june07/ngrok-dns/issues"
+  },
+  "homepage": "https://github.com/june07/ngrok-dns#readme",
+  "dependencies": {
+    "axios": "^0.21.0"
+  }
+}
