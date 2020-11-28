@@ -1,5 +1,5 @@
 {
-  "name": "ngrok-dns",
+  "name": "@667/ngrok-dns",
   "version": "1.0.0",
   "description": "DNS plugin for ngrok, update Cloudflare CNAME record",
   "main": "index.js",
