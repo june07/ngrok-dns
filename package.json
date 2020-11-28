@@ -1,6 +1,6 @@
 {
   "name": "@667/ngrok-dns",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DNS plugin for ngrok, update Cloudflare CNAME record",
   "main": "index.js",
   "scripts": {
@@ -23,5 +23,6 @@
   "homepage": "https://github.com/june07/ngrok-dns#readme",
   "dependencies": {
     "axios": "^0.21.0"
-  }
+  },
+  "devDependencies": {}
 }

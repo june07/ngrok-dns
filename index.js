@@ -23,14 +23,15 @@
 */
 'use strict'
 
-const cloudflare = require('./cloudflare')
+const cloudflare = require('./cloudflare'),
+    { EOL } = require('os')
 
 const logEventHandler = event => {
     if (event.match(/obj=tunnels/)) {
-        let logLine = event.split('\n').find(line => line.match(/https/))
-        if (!logLine) return
+        let logLine = event.split(EOL).find(line => line.match(/https/))
+        if (!logLine || !logLine.match(/url=https:\/\/(.*)/)) return
         let newTunnelURL = logLine.match(/url=https:\/\/(.*)/)[1]
-        cloudflare.update({
+        if (cloudflare) cloudflare.update({
             content: newTunnelURL
         })
     }

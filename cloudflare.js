@@ -29,6 +29,16 @@ const TOKEN = process.env.CLOUDFLARE_TOKEN,
     ZONE_ID = process.env.CLOUDFLARE_ZONE_ID,
     CNAME = process.env.CNAME
 
+let missing = []
+if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
+if (ZONE_ID === undefined) missing.push('CLOUDFLARE_ZONE_ID')
+if (CNAME === undefined) missing.push('CNAME')
+if (! (TOKEN && ZONE_ID && CNAME)) {
+    console.debug(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
+    return false
+}
+
+
 class Cloudflare {
     constructor() {
         this.axiosInstance = axios.create({
@@ -65,6 +75,7 @@ class Cloudflare {
                         proxied
                     })
                 })
+                if (response.data.success) console.log(`ngrok-dns updated Cloudflare CNAME ${CNAME} -> ${content}`)
             } else {
                 response = await axios({
                     method: 'post',
@@ -77,6 +88,7 @@ class Cloudflare {
                         proxied
                     })
                 })
+                if (response.data.success) console.log(`ngrok-dns added Cloudflare CNAME ${CNAME} -> ${content}`)
             }
         } catch(error) {
             error
