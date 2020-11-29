@@ -30,7 +30,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
           scope: '@667'
       - run: npm ci
-      - run: echo "registry=https://registry.npmjs.org/@667" >> .npmrc
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
@@ -46,7 +45,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@june07'
       - run: npm ci
-      - run: echo "registry=https://npm.pkg.github.com/@june07" >> .npmrc
+      - run: echo "registry=https://npm.pkg.github.com/june07" >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
