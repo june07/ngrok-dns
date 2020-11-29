@@ -23,6 +23,7 @@
 */
 'use strict'
 
+console.log = require('./log')
 const axios = require('axios')
 
 const TOKEN = process.env.CLOUDFLARE_TOKEN,
@@ -34,7 +35,7 @@ if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
 if (ZONE_ID === undefined) missing.push('CLOUDFLARE_ZONE_ID')
 if (CNAME === undefined) missing.push('CNAME')
 if (! (TOKEN && ZONE_ID && CNAME)) {
-    console.debug(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
+    console.log(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
     return false
 }
 
