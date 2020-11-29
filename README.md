@@ -5,7 +5,7 @@
 Ngrok-dns is a plugin of sorts that enables domain features of ngrok which are not available on the free plan.
 Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
 
-[![ngrok-dns](hhttps://res.cloudinary.com/june07/image/upload/v1606674450/june07/Capture-cloudflare-ngrok-txt.png)](https://github.com/june07/ngrok-dns)
+[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606674450/june07/Capture-cloudflare-ngrok-txt.png)](https://github.com/june07/ngrok-dns)
 
   - Custom subdomain
   - Reserved domains
@@ -14,6 +14,7 @@ Ngrok-dns will create a TXT record pointing to the new tunnel each time it chang
 `npm install @667/ngrok-dns`
 
 # Usage
+[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)
 ```
 const ngrok = require('./index'),
     ngrokDNS = require('@667/ngrok-dns');
@@ -26,7 +27,7 @@ const ngrok = require('./index'),
 })();
 ```  
 Make sure your env vars are set and run as normal:
- 
+[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675846/june07/Capture-commandLine-ngrok-dns.png)](https://github.com/june07/ngrok-dns)
 * ~~CNAME~~ TXT (ngrok seems to block requests with Host headers not matching their dynamic url!  So instead a TXT record is created which
     can easily be looked up in your dev environment using Node's included dns module:
 `require('dns')`
@@ -35,6 +36,9 @@ Make sure your env vars are set and run as normal:
 
 Log output should look like:
 `ngrok-dns added Cloudflare TXT your-custom-domain.com -> 0d8b12e869d7.ngrok.io`
+
+This is a seperate example of ngrok-dns output:
+[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606676283/june07/Screenshot_2020-11-29_105348.png)](https://github.com/june07/ngrok-dns)
 
 Currently Cloudflare (token based) is supported although other DNS providers should be easy to add.
 
