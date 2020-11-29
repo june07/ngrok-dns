@@ -24,12 +24,14 @@ const ngrok = require('./index'),
 ```  
 Make sure your env vars are set and run as normal:
  
-    * CNAME
-    * CLOUDFLARE_TOKEN
-    * CLOUDFLARE_ZONE_ID
+* ~~CNAME~~ TXT (ngrok seems to block requests with Host headers not matching their dynamic url!  So instead a TXT record is created which
+    can easily be looked up in your dev environment using Node's included dns module:
+`require('dns')`
+* CLOUDFLARE_TOKEN
+* CLOUDFLARE_ZONE_ID
 
 Log output should look like:
-`ngrok-dns added Cloudflare CNAME your-custom-domain.com -> 0d8b12e869d7.ngrok.io`
+`ngrok-dns added Cloudflare TXT your-custom-domain.com -> 0d8b12e869d7.ngrok.io`
 
 Currently Cloudflare (token based) is supported although other DNS providers should be easy to add.
 
