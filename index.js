@@ -24,7 +24,7 @@
 'use strict'
 
 const cloudflare = require('./cloudflare'),
-    { EOL } = require('os')
+    { EOL } = require('os');
 
 const logEventHandler = event => {
     if (event.match(/obj=tunnels/)) {
