@@ -3,6 +3,9 @@
 [![ngrok-dns](https://june07.github.io/ngrok-dns/tempsnip.png)](https://github.com/june07/ngrok-dns)
 
 Ngrok-dns is a plugin of sorts that enables domain features of ngrok which are not available on the free plan.
+Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
+
+[![ngrok-dns](hhttps://res.cloudinary.com/june07/image/upload/v1606674450/june07/Capture-cloudflare-ngrok-txt.png)](https://github.com/june07/ngrok-dns)
 
   - Custom subdomain
   - Reserved domains
