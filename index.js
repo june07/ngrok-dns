@@ -31,7 +31,7 @@ const logEventHandler = event => {
         let logLine = event.split(EOL).find(line => line.match(/https/))
         if (!logLine || !logLine.match(/url=https:\/\/(.*)/)) return
         let newTunnelURL = logLine.match(/url=https:\/\/(.*)/)[1]
-        if (cloudflare) cloudflare.update({
+        if (cloudflare) cloudflare.dns_records.update({
             content: newTunnelURL
         })
     }
