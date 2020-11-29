@@ -28,13 +28,13 @@ const axios = require('axios')
 
 const TOKEN = process.env.CLOUDFLARE_TOKEN,
     ZONE_ID = process.env.CLOUDFLARE_ZONE_ID,
-    CNAME = process.env.CNAME
+    TXT = process.env.TXT
 
 let missing = []
 if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
 if (ZONE_ID === undefined) missing.push('CLOUDFLARE_ZONE_ID')
-if (CNAME === undefined) missing.push('CNAME')
-if (! (TOKEN && ZONE_ID && CNAME)) {
+if (TXT === undefined) missing.push('TXT')
+if (! (TOKEN && ZONE_ID && TXT)) {
     console.log(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
     return false
 }
@@ -62,7 +62,7 @@ class Cloudflare {
             response = await axios({
                 method: 'get',
                 url: `zones/${ZONE_ID}/dns_records`,
-                params: { name: CNAME }
+                params: { name: TXT }
             })
 
             if (response.data.result.length > 0) {
@@ -70,26 +70,26 @@ class Cloudflare {
                     method: 'patch',
                     url: `zones/${ZONE_ID}/dns_records/${response.data.result[0].id}`,
                     data: JSON.stringify({
-                        type: 'CNAME',
+                        type: 'TXT',
                         content,
                         ttl: '1',
                         proxied
                     })
                 })
-                if (response.data.success) console.log(`ngrok-dns updated Cloudflare CNAME ${CNAME} -> ${content}`)
+                if (response.data.success) console.log(`ngrok-dns updated Cloudflare TXT ${TXT} -> ${content}`)
             } else {
                 response = await axios({
                     method: 'post',
                     url: `zones/${ZONE_ID}/dns_records`,
                     data: JSON.stringify({
-                        type: 'CNAME',
-                        name: CNAME,
+                        type: 'TXT',
+                        name: TXT,
                         content,
                         ttl: '1',
                         proxied
                     })
                 })
-                if (response.data.success) console.log(`ngrok-dns added Cloudflare CNAME ${CNAME} -> ${content}`)
+                if (response.data.success) console.log(`ngrok-dns added Cloudflare TXT ${TXT} -> ${content}`)
             }
         } catch(error) {
             error
