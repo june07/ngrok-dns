@@ -27,12 +27,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+          registry-url: https://registry.npmjs.org/
+          scope: '@667'
       - run: npm ci
+      - run: echo "registry=https://registry.npmjs.org/@667" >> .npmrc
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          registry-url: https://registry.npmjs.org/
-          scope: '@667'
 
   publish-gpr:
     needs: build
