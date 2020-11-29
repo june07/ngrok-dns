@@ -51,7 +51,7 @@ jobs:
             const fs = require('fs').promises;
             fs.readFile('package.json', 'utf8').then(data => JSON.parse(data)).then(json => {
               console.log(json);
-                json.name = `@june07/${json.name}`;
+                json.name = '@june07/' + json.name;
                 console.info('Package name changed to %s', json.name);
                 return fs.writeFile('package.json', JSON.stringify(json), 'utf8');
             }).catch(error => {

@@ -23,8 +23,8 @@
 */
 'use strict'
 
-console.log = require('./log')
-const axios = require('axios')
+const logger = require('./log'),
+    axios = require('axios')
 
 const TOKEN = process.env.CLOUDFLARE_TOKEN,
     ZONE_ID = process.env.CLOUDFLARE_ZONE_ID,
@@ -35,7 +35,7 @@ if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
 if (ZONE_ID === undefined) missing.push('CLOUDFLARE_ZONE_ID')
 if (TXT === undefined) missing.push('TXT')
 if (! (TOKEN && ZONE_ID && TXT)) {
-    console.log(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
+    logger(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
     return false
 }
 
@@ -72,11 +72,10 @@ class Cloudflare {
                     data: JSON.stringify({
                         type: 'TXT',
                         content,
-                        ttl: '1',
-                        proxied
+                        ttl: '1'
                     })
                 })
-                if (response.data.success) console.log(`ngrok-dns updated Cloudflare TXT ${TXT} -> ${content}`)
+                if (response.data.success) logger(`ngrok-dns updated Cloudflare TXT ${TXT} -> ${content}`)
             } else {
                 response = await axios({
                     method: 'post',
@@ -85,11 +84,10 @@ class Cloudflare {
                         type: 'TXT',
                         name: TXT,
                         content,
-                        ttl: '1',
-                        proxied
+                        ttl: '1'
                     })
                 })
-                if (response.data.success) console.log(`ngrok-dns added Cloudflare TXT ${TXT} -> ${content}`)
+                if (response.data.success) logger(`ngrok-dns added Cloudflare TXT ${TXT} -> ${content}`)
             }
         } catch(error) {
             error
