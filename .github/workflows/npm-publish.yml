@@ -45,7 +45,19 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@june07'
       - run: npm ci
-      - run: echo "registry=https://npm.pkg.github.com/june07" >> .npmrc
+      - run: echo "registry=https://npm.pkg.github.com" >> .npmrc
+      - run: |
+          node <<EOF
+            const fs = require('fs').promises;
+            fs.readFile('package.json', 'utf8').then(data => JSON.parse(data)).then(json => {
+                json.name = `@june07/${json.name}`;
+                console.info('Package name changed to %s', json.name);
+                return fs.writeFile('package.json', JSON.stringify(json), 'utf8');
+            }).catch(error => {
+                console.error(error);
+                process.exit(1);
+            });
+          EOF
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
