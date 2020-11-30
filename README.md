@@ -36,7 +36,7 @@ const ngrok = require('./index'),
     });
 })();
 ```  
-Make sure your env vars are set and run as normal:
+Make sure your env vars are set and run your app or app dev command (i.e. nodemon, etc) as normal:
 [![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675846/june07/Capture-commandLine-ngrok-dns.png)](https://github.com/june07/ngrok-dns)
 * ~~CNAME~~ TXT (ngrok seems to block requests with Host headers not matching their dynamic url!  So instead a TXT record is created which
     can easily be looked up in your dev environment using Node's included dns module:
