@@ -11,8 +11,11 @@ Ngrok-dns will create a TXT record pointing to the new tunnel each time it chang
 |[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606674450/june07/Capture-cloudflare-ngrok-txt.png)](https://github.com/june07/ngrok-dns)|
 |:---:|
 | cloudflare TXT records can then be easily accessed from webhooks and other disconnected parts of dev project |
-  - Custom subdomain
+  - Custom domains,
+https://ngrok.com/docs#http-custom-domains
   - Reserved domains
+  - Wildcard domains
+https://ngrok.com/docs#wildcard
 
 # Install
 `npm install @667/ngrok-dns`
