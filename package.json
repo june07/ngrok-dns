@@ -1,7 +1,7 @@
 {
   "name": "@667/ngrok-dns",
-  "version": "1.2.3",
-  "description": "DNS plugin for ngrok, update Cloudflare CNAME record",
+  "version": "1.2.4",
+  "description": "DNS plugin for ngrok",
   "main": "index.js",
   "scripts": {
     "test": "exit 0"
@@ -13,7 +13,10 @@
   "keywords": [
     "cloudflare",
     "ngrok",
-    "dns"
+    "dns",
+    "custom domain",
+    "reserved domain",
+    "wildcard domain"
   ],
   "author": "june07",
   "license": "MIT",
