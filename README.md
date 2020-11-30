@@ -1,12 +1,16 @@
 # ngrok-dns
+[![ngrok-dns](https://img.shields.io/github/package-json/v/june07/ngrok-dns)](https://github.com/june07/ngrok-dns) [![ngrok-dns](https://img.shields.io/npm/v/@667/ngrok-dns)](https://github.com/june07/ngrok-dns)
 
-[![ngrok-dns](https://june07.github.io/ngrok-dns/tempsnip.png)](https://github.com/june07/ngrok-dns)
-
-Ngrok-dns is a plugin of sorts that enables domain features of ngrok which are not available on the free plan.
+Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
 Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
 
-[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606674450/june07/Capture-cloudflare-ngrok-txt.png)](https://github.com/june07/ngrok-dns)
+|[![ngrok-dns](https://june07.github.io/ngrok-dns/tempsnip.png)](https://github.com/june07/ngrok-dns)|
+|:---:|
+| ngrok tunnel url is dynamic and will change during your development cycle |
 
+|[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606674450/june07/Capture-cloudflare-ngrok-txt.png)](https://github.com/june07/ngrok-dns)|
+|:---:|
+| cloudflare TXT records can then be easily accessed from webhooks and other disconnected parts of dev project |
   - Custom subdomain
   - Reserved domains
 
@@ -14,8 +18,11 @@ Ngrok-dns will create a TXT record pointing to the new tunnel each time it chang
 `npm install @667/ngrok-dns`
 
 # Usage
-[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)
-```
+|[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)|
+|:---:|
+| highlighed locations show requirement for ngrok-dns usage |
+
+```node
 const ngrok = require('./index'),
     ngrokDNS = require('@667/ngrok-dns');
 
