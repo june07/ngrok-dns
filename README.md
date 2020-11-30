@@ -1,5 +1,5 @@
 # ngrok-dns
-[![ngrok-dns](https://img.shields.io/github/package-json/v/june07/ngrok-dns)](https://github.com/june07/ngrok-dns) [![ngrok-dns](https://img.shields.io/npm/v/@667/ngrok-dns)](https://github.com/june07/ngrok-dns)
+[![ngrok-dns](https://img.shields.io/github/package-json/v/june07/ngrok-dns)](https://github.com/june07/ngrok-dns) [![ngrok-dns](https://img.shields.io/npm/v/@667/ngrok-dns)](https://www.npmjs.com/package/@667/ngrok-dns)
 
 Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
 Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
