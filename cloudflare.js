@@ -28,7 +28,8 @@ const logger = require('./log'),
 
 const TOKEN = process.env.CLOUDFLARE_TOKEN,
     ZONE_ID = process.env.CLOUDFLARE_ZONE_ID,
-    TXT = process.env.TXT
+    TXT = process.env.TXT,
+    CNAME = process.env.CNAME || 'ngrok.june07.com'
 
 let missing = []
 if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
@@ -42,24 +43,36 @@ if (! (TOKEN && ZONE_ID && TXT)) {
 
 class Cloudflare {
     constructor() {
-        this.axiosInstance = axios.create({
+        this.axiosInstance1 = axios.create({
             baseURL: 'https://api.cloudflare.com/client/v4/',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${TOKEN}`
             },
         }),
-            this.dns_records = {
-                update: this.update.bind(this)
-            }
+        this.axiosInstance2 = axios.create({
+            baseURL: 'https://api.cloudflare.com/client/v4/',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${TOKEN}`
+            },
+        }),
+        this.dns_records = {
+            update: this.update.bind(this),
+            updateTXT: this.updateTXT.bind(this),
+            updateCNAME: this.updateCNAME.bind(this)
+        }
     }
     async update(options) {
-        let axios = this.axiosInstance,
-            { name, content, proxied = true } = options,
-            response
+        let { type, content } = options
         
+        if (type === 'TXT') this.updateTXT(content)
+        else if (type === 'CNAME') this.updateCNAME(`${content}.${CNAME}`)
+    }
+    async updateTXT(content) {
         try {
-            response = await axios({
+            let axios = this.axiosInstance1
+            let response = await axios({
                 method: 'get',
                 url: `zones/${ZONE_ID}/dns_records`,
                 params: { name: TXT }
@@ -88,6 +101,43 @@ class Cloudflare {
                     })
                 })
                 if (response.data.success) logger(`ngrok-dns added Cloudflare TXT ${TXT} -> ${content}`)
+            }
+        } catch(error) {
+            error
+        }
+    }
+    async updateCNAME(name) {
+        try {
+            let axios = this.axiosInstance2
+            let response = await axios({
+                method: 'get',
+                url: `zones/${ZONE_ID}/dns_records`,
+                params: { name }
+            })
+
+            if (response.data.result.length > 0) {
+                response = await axios({
+                    method: 'patch',
+                    url: `zones/${ZONE_ID}/dns_records/${response.data.result[0].id}`,
+                    data: JSON.stringify({
+                        type: 'CNAME',
+                        content,
+                        ttl: '1',
+                    })
+                })
+                if (response.data.success) logger(`ngrok-dns updated Cloudflare CNAME ${CNAME} -> ${name}`)
+            } else {
+                response = await axios({
+                    method: 'post',
+                    url: `zones/${ZONE_ID}/dns_records`,
+                    data: JSON.stringify({
+                        type: 'CNAME',
+                        name,
+                        content: CNAME,
+                        ttl: '1',
+                    })
+                })
+                if (response.data.success) logger(`ngrok-dns added Cloudflare CNAME ${CNAME} -> ${name}`)
             }
         } catch(error) {
             error
