@@ -70,7 +70,10 @@ class Cloudflare {
         
         if (type === 'TXT') this.updateTXT(content)
         else if (type === 'CNAME' && CNAME !== undefined) this.updateCNAME(`${content}.${CNAME}`)
-        else if (type === 'CNAME' && CNAME === undefined) logger(`No CNAME set. Try ${content}.ngrok.june07.com and register for a free static redirect.`)
+        else if (type === 'CNAME' && CNAME === undefined) logger(`No CNAME set.
+            Try ${content}.ngrok.june07.com and register to use June07's static redirect service.
+            Register here https://ngrok.june07.com or setup your own https://blog.june07.com/ngrok
+        `)
     }
     async updateTXT(content) {
         try {
