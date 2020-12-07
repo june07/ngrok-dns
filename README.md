@@ -21,11 +21,11 @@ https://ngrok.com/docs#wildcard
 `npm install @667/ngrok-dns`
 
 # Usage
-|[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)|
-|:---:|
-| highlighed locations show requirement for ngrok-dns usage |
+|[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)| 2 |
+|:---:|:---:|
+| highlighed locations show requirement for ngrok-dns usage | 2 |
 
-```node
+```javascript
 const ngrok = require('./index'),
     ngrokDNS = require('@667/ngrok-dns');
 
@@ -38,9 +38,8 @@ const ngrok = require('./index'),
 ```  
 Make sure your env vars are set and run your app or app dev command (i.e. nodemon, etc) as normal:
 [![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675846/june07/Capture-commandLine-ngrok-dns.png)](https://github.com/june07/ngrok-dns)
-* ~~CNAME~~ TXT (ngrok seems to block requests with Host headers not matching their dynamic url!  So instead a TXT record is created which
-    can easily be looked up in your dev environment using Node's included dns module:
-`require('dns')`
+* TXT - A DNS TXT record is created which can easily be looked up in your dev environment using Node's included dns module:
+    `require('dns')`
 * CLOUDFLARE_TOKEN
 * CLOUDFLARE_ZONE_ID
 
