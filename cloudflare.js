@@ -29,17 +29,16 @@ const logger = require('./log'),
 const TOKEN = process.env.CLOUDFLARE_TOKEN,
     ZONE_ID = process.env.CLOUDFLARE_ZONE_ID,
     TXT = process.env.TXT,
-    CNAME = process.env.CNAME
+    REDIRECT_SERVICE = process.env.REDIRECT_SERVICE || 'ngrok-dns.june07.com'
 
 let missing = []
 if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
 if (ZONE_ID === undefined) missing.push('CLOUDFLARE_ZONE_ID')
 if (TXT === undefined) missing.push('TXT')
-if (CNAME === undefined) missing.push('CNAME')
 
-if (missing.length > 0 && missing.find(v => v !== 'CNAME')) {
+if (missing.length > 0) {
     logger(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
-    return false
+    return
 }
 
 
@@ -62,18 +61,12 @@ class Cloudflare {
         this.dns_records = {
             update: this.update.bind(this),
             updateTXT: this.updateTXT.bind(this),
-            updateCNAME: this.updateCNAME.bind(this)
         }
     }
     async update(options) {
         let { type, content } = options
         
         if (type === 'TXT') this.updateTXT(content)
-        else if (type === 'CNAME' && CNAME !== undefined) this.updateCNAME(`${content}.${CNAME}`)
-        else if (type === 'CNAME' && CNAME === undefined) logger(`No CNAME set.
-            Try ${content}.dyn.ngrok.june07.com and register to use June07's static redirect service.
-            Register here https://ngrok.june07.com or setup your own https://blog.june07.com/ngrok
-        `)
     }
     async updateTXT(content) {
         try {
@@ -84,7 +77,9 @@ class Cloudflare {
                 params: { name: TXT }
             })
 
-            if (response.data.result.length > 0) {
+            if (response.data.result.length > 0 && response.data.result[0].content === content) {
+                logger(`skipped Cloudflare TXT update ${TXT} -> ${content}`)
+            } else if (response.data.result.length > 0) {
                 response = await axios({
                     method: 'patch',
                     url: `zones/${ZONE_ID}/dns_records/${response.data.result[0].id}`,
@@ -107,43 +102,6 @@ class Cloudflare {
                     })
                 })
                 if (response.data.success) logger(`added Cloudflare TXT ${TXT} -> ${content}`)
-            }
-        } catch(error) {
-            error
-        }
-    }
-    async updateCNAME(content) {
-        try {
-            let axios = this.axiosInstance2
-            let response = await axios({
-                method: 'get',
-                url: `zones/${ZONE_ID}/dns_records`,
-                params: { name: CNAME }
-            })
-
-            if (response.data.result.length > 0) {
-                response = await axios({
-                    method: 'patch',
-                    url: `zones/${ZONE_ID}/dns_records/${response.data.result[0].id}`,
-                    data: JSON.stringify({
-                        type: 'CNAME',
-                        content,
-                        ttl: '1',
-                    })
-                })
-                if (response.data.success) logger(`updated Cloudflare CNAME ${CNAME} -> ${content}`)
-            } else {
-                response = await axios({
-                    method: 'post',
-                    url: `zones/${ZONE_ID}/dns_records`,
-                    data: JSON.stringify({
-                        type: 'CNAME',
-                        name: CNAME,
-                        content,
-                        ttl: '1',
-                    })
-                })
-                if (response.data.success) logger(`added Cloudflare CNAME ${CNAME} -> ${content}`)
             }
         } catch(error) {
             error

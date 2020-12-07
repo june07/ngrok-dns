@@ -23,18 +23,17 @@
 */
 'use strict'
 
-const cloudflare = require('./cloudflare'),
+const dnsProvider = require('./cloudflare'),
+    redirectService = require('./ngrok-dns-service'),
     { EOL } = require('os');
 
 const logEventHandler = event => {
     if (event.match(/obj=tunnels/)) {
         let logLine = event.split(EOL).find(line => line.match(/https/))
         if (!logLine || !logLine.match(/url=https:\/\/(.*)/)) return
-        let newTunnelURL = logLine.match(/url=https:\/\/(.*)/)[1]
-        if (cloudflare && JSON.stringify(cloudflare) !== '{}') {
-            cloudflare.dns_records.update({ type: 'TXT', content: newTunnelURL })
-            cloudflare.dns_records.update({ type: 'CNAME', content: newTunnelURL })
-        }
+        let newTunnelURL = logLine.match(/url=(https:\/\/(.*))/)
+        if (redirectService) redirectService.update(newTunnelURL[1])
+        if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: newTunnelURL[1] })
     }
     return event
 }
