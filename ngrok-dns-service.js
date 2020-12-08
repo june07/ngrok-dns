@@ -28,12 +28,12 @@ const logger = require('./log'),
 
 const REDIRECT_SERVICE = process.env.REDIRECT_SERVICE || 'ngrok-dns.june07.com',
     REDIRECT_SERVICE_APIKEY = process.env.REDIRECT_SERVICE_APIKEY,
-    REDIRECT_SERVICE_USERID = process.env.REDIRECT_SERVICE_USERID
+    REDIRECT_SERVICE_ID = process.env.REDIRECT_SERVICE_ID
 ;
 
 let missing = []
 if (REDIRECT_SERVICE_APIKEY === undefined) missing.push('REDIRECT_SERVICE_APIKEY')
-if (REDIRECT_SERVICE_USERID === undefined) missing.push('REDIRECT_SERVICE_USERID')
+if (REDIRECT_SERVICE_ID === undefined) missing.push('REDIRECT_SERVICE_ID')
 
 if (missing.length > 0) {
     logger(`ngrok-dns-service functionality is DISABLED because of missing (${missing.join()}) env variables`)
@@ -57,7 +57,7 @@ class Service {
                     method: 'post',
                     url: `/add`,
                     data: JSON.stringify({
-                        id: REDIRECT_SERVICE_USERID,
+                        id: REDIRECT_SERVICE_ID,
                         url: tunnelURL,
                     })
                 })
