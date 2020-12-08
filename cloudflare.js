@@ -31,14 +31,16 @@ const TOKEN = process.env.CLOUDFLARE_TOKEN,
     TXT = process.env.TXT,
     REDIRECT_SERVICE = process.env.REDIRECT_SERVICE || 'ngrok-dns.june07.com'
 
-let missing = []
+let missing = [],
+    enabled = true
+
 if (TOKEN === undefined) missing.push('CLOUDFLARE_TOKEN')
 if (ZONE_ID === undefined) missing.push('CLOUDFLARE_ZONE_ID')
 if (TXT === undefined) missing.push('TXT')
 
 if (missing.length > 0) {
     logger(`cloudflare functionality is DISABLED because of missing (${missing.join()}) env variables`)
-    return
+    enabled = false
 }
 
 
@@ -109,4 +111,4 @@ class Cloudflare {
     }
 }
 
-module.exports = new Cloudflare()
+module.exports = enabled ? new Cloudflare() : enabled

@@ -31,13 +31,15 @@ const REDIRECT_SERVICE = process.env.REDIRECT_SERVICE || 'ngrok-dns.june07.com',
     REDIRECT_SERVICE_ID = process.env.REDIRECT_SERVICE_ID
 ;
 
-let missing = []
+let missing = [],
+    enabled = true
+    
 if (REDIRECT_SERVICE_APIKEY === undefined) missing.push('REDIRECT_SERVICE_APIKEY')
 if (REDIRECT_SERVICE_ID === undefined) missing.push('REDIRECT_SERVICE_ID')
 
 if (missing.length > 0) {
+    enabled = false
     logger(`ngrok-dns-service functionality is DISABLED because of missing (${missing.join()}) env variables`)
-    return
 }
 
 class Service {
@@ -68,4 +70,4 @@ class Service {
     }
 }
 
-module.exports = new Service()
+module.exports = enabled ? new Service() : enabled
