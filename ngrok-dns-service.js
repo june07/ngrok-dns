@@ -33,7 +33,7 @@ const REDIRECT_SERVICE = process.env.REDIRECT_SERVICE || 'ngrok-dns.june07.com',
 
 let missing = [],
     enabled = true
-    
+
 if (REDIRECT_SERVICE_APIKEY === undefined) missing.push('REDIRECT_SERVICE_APIKEY')
 if (REDIRECT_SERVICE_ID === undefined) missing.push('REDIRECT_SERVICE_ID')
 
@@ -64,6 +64,7 @@ class Service {
                     })
                 })
                 if (response.status == 200) logger(`updated redirect service ${response.data.redirect}`)
+                else logger(`redirect service update returned ${response.status}`)
         } catch(error) {
             error
         }
