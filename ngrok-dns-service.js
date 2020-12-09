@@ -66,7 +66,7 @@ class Service {
                 if (response.status == 200) logger(`updated redirect service ${response.data.redirect}`)
                 else logger(`redirect service update returned ${response.status}`)
         } catch(error) {
-            error
+            logger(error)
         }
     }
 }
