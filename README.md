@@ -4,6 +4,10 @@
 Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
 Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
 
+Further you can generate a fixed URL using the service at https://ngrok-dns.june07.com.
+
+![https://june07.github.io/image/InShot_20201209_081348040.gif](https://june07.github.io/image/InShot_20201209_081348040.gif)
+
 |[![ngrok-dns](https://june07.github.io/ngrok-dns/tempsnip.png)](https://github.com/june07/ngrok-dns)|
 |:---:|
 | ngrok tunnel url is dynamic and will change during your development cycle |
