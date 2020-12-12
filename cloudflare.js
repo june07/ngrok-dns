@@ -88,7 +88,7 @@ class Cloudflare {
                     data: JSON.stringify({
                         type: 'TXT',
                         content,
-                        ttl: '2'
+                        ttl: '120'
                     })
                 })
                 if (response.data.success) logger(`updated Cloudflare TXT ${TXT} -> ${content}`)
@@ -100,7 +100,7 @@ class Cloudflare {
                         type: 'TXT',
                         name: TXT,
                         content,
-                        ttl: '2'
+                        ttl: '120'
                     })
                 })
                 if (response.data.success) logger(`added Cloudflare TXT ${TXT} -> ${content}`)
