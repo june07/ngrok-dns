@@ -23,19 +23,29 @@
 */
 'use strict'
 
+const { REDIRECT_TUNNEL_SERVICE = 'ngrok' } = process.env
+
 const dnsProvider = require('./cloudflare'),
     redirectService = require('./ngrok-dns-service'),
     { EOL } = require('os');
 
-const logEventHandler = event => {
-    if (event.match(/obj=tunnels/)) {
-        let logLine = event.split(EOL).find(line => line.match(/https/))
-        if (!logLine || !logLine.match(/url=https:\/\/(.*)/)) return
-        let newTunnelURL = logLine.match(/url=(https:\/\/(.*))/)
-        if (redirectService) redirectService.update(newTunnelURL[1])
-        if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: newTunnelURL[1] })
+let logEventHandler
+if (REDIRECT_TUNNEL_SERVICE === 'ngrok') {
+    logEventHandler = event => {
+        if (event.match(/obj=tunnels/)) {
+            let logLine = event.split(EOL).find(line => line.match(/https/))
+            if (!logLine || !logLine.match(/url=https:\/\/(.*)/)) return
+            let newTunnelURL = logLine.match(/url=(https:\/\/(.*))/)
+            if (redirectService) redirectService.update(newTunnelURL[1])
+            if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: newTunnelURL[1] })
+        }
+        return event
     }
-    return event
+} else if (REDIRECT_TUNNEL_SERVICE === 'localtunnel') {
+    logEventHandler = tunnelUrl => {
+        if (redirectService) redirectService.update(tunnelUrl)
+        if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: tunnelUrl })
+    }
 }
 
 module.exports = logEventHandler
