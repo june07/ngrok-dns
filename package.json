@@ -1,6 +1,6 @@
 {
   "name": "@667/ngrok-dns",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "DNS plugin for ngrok",
   "main": "index.js",
   "scripts": {
