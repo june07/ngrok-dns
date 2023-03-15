@@ -62,3 +62,40 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          
+  alert:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo "$GITHUB_CONTEXT"
+
+    - name: Dump env
+      env:
+        ENV_JSON: ${{ toJson(env) }}
+      run: |
+        echo "$ENV_JSON"
+
+    - name: Call BrakeCODE API
+      run: |
+        cat <<- JSON > /tmp/heredoc
+        {
+          "topic": "notification",
+          "title": "GitHub workflow completed.",
+          "content": "$(echo ${{ github.repository }} | base64 -w0)",
+          "badge": {
+            "text": "${{ github.repository }}",
+            "color": "#FF9800"
+          }
+        }
+        JSON
+        payload=$(cat /tmp/heredoc | jq -c | base64 -w0)
+        curl -k -L https://api.brakecode.com/api/v1/alert?appId=alerts \
+          -H 'Content-Type: text/plain' \
+          -H 'x-environment: canary' \
+          -H "x-api-key: { \"apikey\": \"${{ secrets.BRAKECODE_API_KEY }}\" }" \
+          -d "$payload"
+
