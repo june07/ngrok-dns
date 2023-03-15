@@ -35,7 +35,7 @@ if (REDIRECT_TUNNEL_SERVICE === 'ngrok') {
         if (event.match(/obj=tunnels/)) {
             let logLine = event.split(EOL).find(line => line.match(/https/))
             if (!logLine || !logLine.match(/url=https:\/\/(.*)/)) return
-            let newTunnelURL = logLine.match(/url=(https:\/\/(.*))/)
+            const newTunnelURL = logLine.match(/url=(https?:\/\/(.*))/)[1];
             if (redirectService) redirectService.update(newTunnelURL[1])
             if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: newTunnelURL[1] })
         }
