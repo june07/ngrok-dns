@@ -27,19 +27,19 @@ https://ngrok.com/docs#wildcard
 `npm install @667/ngrok-dns`
 
 # Usage
-|[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)| [![localtunnel](https://res.cloudinary.com/june07/image/upload/v1670606221/Screenshot_2022-12-09_091645_n3dmoe.png) |
+|[![ngrok-dns](https://github.com/user-attachments/assets/09af65a8-a239-4805-b4a8-be5b12d6d5f3)](https://github.com/june07/ngrok-dns)| [![localtunnel](https://res.cloudinary.com/june07/image/upload/v1670606221/Screenshot_2022-12-09_091645_n3dmoe.png) |
 |:---:|:---:|
 | highlighed locations show requirement for ngrok-dns usage | similar setup for localtunnel usage |
 
 ### ngrok usage
 ```javascript
 const ngrok = require('@ngrok/ngrok'),
-    ngrokDNS = require('@667/ngrok-dns');
+    dnsTunnel = require('@667/ngrok-dns');
 
 (async function () {
     const listener = await ngrok.forward({
         addr: 'https://localhost:3000',
-        on_status_change: ngrokDNS,
+        on_status_change: dnsTunnel,
         authtoken: NGROK_AUTH_TOKEN,
         verify_upstream_tls: false
     })
