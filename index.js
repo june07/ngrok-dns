@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- *    Copyright (c) 2020-2023 June07
+ *    Copyright (c) 2020-2024 June07
  *
  *    Permission is hereby granted, free of charge, to any person obtaining a copy
  *    of this software and associated documentation files (the "Software"), to deal
@@ -26,20 +26,16 @@
 const { REDIRECT_TUNNEL_SERVICE = 'ngrok' } = process.env
 
 const dnsProvider = require('./cloudflare'),
-    redirectService = require('./ngrok-dns-service'),
-    { EOL } = require('os');
+    redirectService = require('./ngrok-dns-service')
 
 let logEventHandler
 if (REDIRECT_TUNNEL_SERVICE === 'ngrok') {
-    logEventHandler = event => {
-        if (event.match(/obj=tunnels/)) {
-            let logLine = event.split(EOL).find(line => line.match(/https?/))
-            if (!logLine || !logLine.match(/url=https?:\/\/(.*)/)) return
-            const newTunnelURL = logLine.match(/url=(https?:\/\/(.*))/);
-            if (redirectService) redirectService.update(newTunnelURL[1])
-            if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: newTunnelURL[1] })
-        }
-        return event
+    logEventHandler = (listener, _error) => {
+        const newTunnelURL = listener.url()
+
+        if (redirectService) redirectService.update(newTunnelURL)
+        if (dnsProvider) dnsProvider.dns_records.update({ type: 'TXT', content: newTunnelURL })
+        return listener
     }
 } else if (REDIRECT_TUNNEL_SERVICE === 'localtunnel') {
     logEventHandler = tunnelUrl => {
