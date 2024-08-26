@@ -3,7 +3,7 @@
 
 ### UPDATE: This service/utility also works with [localtunnel](https://www.npmjs.com/package/localtunnel)
 
-Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
+Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/@ngrok/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
 Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
 
 Further you can generate a fixed URL using the service at https://ngrok-dns.june07.com.
@@ -33,14 +33,16 @@ https://ngrok.com/docs#wildcard
 
 ### ngrok usage
 ```javascript
-const ngrok = require('./index'),
+const ngrok = require('@ngrok/ngrok'),
     ngrokDNS = require('@667/ngrok-dns');
 
 (async function () {
-    const url = await ngrok.connect({
+    const listener = await ngrok.forward({
         addr: 'https://localhost:3000',
-        onLogEvent: ngrokDNS
-    });
+        on_status_change: ngrokDNS,
+        authtoken: NGROK_AUTH_TOKEN,
+        verify_upstream_tls: false
+    })
 })();
 ```
 ### localtunnel usage
