@@ -1,3 +1,4 @@
+#sudo su 
 # ngrok-dns
 [![ngrok-dns](https://img.shields.io/github/package-json/v/june07/ngrok-dns)](https://github.com/june07/ngrok-dns) [![ngrok-dns](https://img.shields.io/npm/v/@667/ngrok-dns)](https://www.npmjs.com/package/@667/ngrok-dns)
 
