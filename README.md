@@ -3,7 +3,7 @@
 
 ### UPDATE: This service/utility also works with [localtunnel](https://www.npmjs.com/package/localtunnel)
 
-Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
+Ngrok-dns is a plugin of sorts to the [ngrok](https://www.npmjs.com/package/@ngrok/ngrok) npm package that enables domain features of ngrok which are not available on the free plan.
 Ngrok-dns will create a TXT record pointing to the new tunnel each time it changes.
 
 Further you can generate a fixed URL using the service at https://ngrok-dns.june07.com.
@@ -27,20 +27,22 @@ https://ngrok.com/docs#wildcard
 `npm install @667/ngrok-dns`
 
 # Usage
-|[![ngrok-dns](https://res.cloudinary.com/june07/image/upload/v1606675182/june07/Capture-codeExample-ngrok-dns.png)](https://github.com/june07/ngrok-dns)| [![localtunnel](https://res.cloudinary.com/june07/image/upload/v1670606221/Screenshot_2022-12-09_091645_n3dmoe.png) |
+|[![ngrok-dns](https://github.com/user-attachments/assets/09af65a8-a239-4805-b4a8-be5b12d6d5f3)](https://github.com/june07/ngrok-dns)| [![localtunnel](https://res.cloudinary.com/june07/image/upload/v1670606221/Screenshot_2022-12-09_091645_n3dmoe.png) |
 |:---:|:---:|
 | highlighed locations show requirement for ngrok-dns usage | similar setup for localtunnel usage |
 
 ### ngrok usage
 ```javascript
-const ngrok = require('./index'),
-    ngrokDNS = require('@667/ngrok-dns');
+const ngrok = require('@ngrok/ngrok'),
+    dnsTunnel = require('@667/ngrok-dns');
 
 (async function () {
-    const url = await ngrok.connect({
+    const listener = await ngrok.forward({
         addr: 'https://localhost:3000',
-        onLogEvent: ngrokDNS
-    });
+        on_status_change: dnsTunnel,
+        authtoken: NGROK_AUTH_TOKEN,
+        verify_upstream_tls: false
+    })
 })();
 ```
 ### localtunnel usage
